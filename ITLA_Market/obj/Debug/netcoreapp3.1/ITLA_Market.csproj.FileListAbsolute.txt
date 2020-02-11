@@ -1,0 +1,11 @@
+C:\Users\Carlos\source\repos\ITLA_Market\ITLA_Market\bin\Debug\netcoreapp3.1\ITLA_Market.exe
+C:\Users\Carlos\source\repos\ITLA_Market\ITLA_Market\bin\Debug\netcoreapp3.1\ITLA_Market.deps.json
+C:\Users\Carlos\source\repos\ITLA_Market\ITLA_Market\bin\Debug\netcoreapp3.1\ITLA_Market.runtimeconfig.json
+C:\Users\Carlos\source\repos\ITLA_Market\ITLA_Market\bin\Debug\netcoreapp3.1\ITLA_Market.runtimeconfig.dev.json
+C:\Users\Carlos\source\repos\ITLA_Market\ITLA_Market\bin\Debug\netcoreapp3.1\ITLA_Market.dll
+C:\Users\Carlos\source\repos\ITLA_Market\ITLA_Market\bin\Debug\netcoreapp3.1\ITLA_Market.pdb
+C:\Users\Carlos\source\repos\ITLA_Market\ITLA_Market\obj\Debug\netcoreapp3.1\ITLA_Market.csprojAssemblyReference.cache
+C:\Users\Carlos\source\repos\ITLA_Market\ITLA_Market\obj\Debug\netcoreapp3.1\ITLA_Market.AssemblyInfoInputs.cache
+C:\Users\Carlos\source\repos\ITLA_Market\ITLA_Market\obj\Debug\netcoreapp3.1\ITLA_Market.AssemblyInfo.cs
+C:\Users\Carlos\source\repos\ITLA_Market\ITLA_Market\obj\Debug\netcoreapp3.1\ITLA_Market.dll
+C:\Users\Carlos\source\repos\ITLA_Market\ITLA_Market\obj\Debug\netcoreapp3.1\ITLA_Market.pdb
