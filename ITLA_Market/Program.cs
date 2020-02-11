@@ -141,7 +141,7 @@ namespace ITLA_Market
                     Console.WriteLine("Seleccion solo entre las opciones dadas");
                     break;
             }
-        }
+        } 
 
         public static void borraProducto() 
         {
@@ -158,112 +158,77 @@ namespace ITLA_Market
         {
             foreach (productos item in lsProductos)
             {
-                int counter = 1;
-                Console.WriteLine("Posicion " + counter);
+                Console.WriteLine("Posicion " + (lsProductos.IndexOf(item) + 1));
                 Console.WriteLine("Nombre: " + item.prodNombre);
                 Console.WriteLine("Cantidad: " + item.cantProducto);
                 Console.WriteLine("Precio: " + item.precioProducto);
-                counter++;
                 Console.WriteLine("");
             }
         }
 
         public static void venderProductos() 
         {
-            double total = 0;
-            List<string> productos = new List<string>();
-            List<int> cantidades = new List<int>();
-            List<double> subtotales = new List<double>();
-            Console.WriteLine("Introduzca el nombre del cliente al que desea vender");
-            string nombre = Console.ReadLine();
-            buscarCliente(nombre);
-            Console.WriteLine("Lista de productos disponibles.");
-            listar();
-            Console.WriteLine("");
-            buscandoProductos(productos, cantidades, subtotales);
-            fc.cliente = nombre;
-            fc.cantComprado = cantidades;
-            fc.prodComprados = productos;
-            fc.subTotal = subtotales;
-            foreach (double item in subtotales) 
+            List<string> prodVendido = new List<string>();
+            List<int> cantVendida = new List<int>();
+            buscarCliente();
+            cantidadVender(prodVendido, cantVendida);
+            fc.prodComprados = prodVendido;
+            fc.cantComprado = cantVendida;
+            Console.WriteLine("Venta a cliente " + fc.cliente);
+            foreach (string item in fc.prodComprados)
             {
-                total += item;
+                Console.WriteLine("Producto: " + item);
             }
-            fc.total = total;
-
-            lsFacturas.Add(fc);
+            foreach (int item in fc.cantComprado)
+            {
+                Console.WriteLine("Cantidad: " + item);
+            }
+            Console.ReadKey();
         }
 
-        public static void listarVenta() 
+        public static void cantidadVender(List<string> prodVendido, List<int> cantVendida) 
         {
+            Console.WriteLine("Que producto desea vender");
+            string ventaP = Console.ReadLine();
 
-        }
-
-
-        public static void agregarClienteAFactura() 
-        {
-
-        }
-
-        //public static void agregandoAFactura(List<string> compra, List<double> sub, string client, List<int> cant ) 
-        //{
-        //    double total = 0;
-        //    foreach (double item in sub)
-        //    {
-        //        total += item;
-        //    }
-
-        //    facturas fc = new facturas();
-        //    fc.prodComprados = compra;
-        //    fc.subTotal = sub;
-        //    fc.cliente = client;
-        //    fc.cantComprado = cant;
-        //    fc.total = total;
-        //}
-        public static void buscandoProductos(List<string> products, List<int> cant, List<double> subT)
-        {
-            do {
-                Console.WriteLine("Ingrese el nombre del producto que desea vender");
-                string producto = Console.ReadLine();
-                foreach (productos item in lsProductos)
+            foreach (productos instancias in lsProductos) 
+            {
+                if (ventaP == instancias.prodNombre) 
                 {
-                    if (item.prodNombre == producto)
+                    Console.WriteLine("Producto disponible");
+                    prodVendido.Add(ventaP);
+
+                    Console.WriteLine("Que cantidad desea vender");
+                    int cant = Convert.ToInt32(Console.ReadLine());
+
+                    if (cant <= instancias.cantProducto)
                     {
-
-                        Console.WriteLine("Que cantidad del producto desea vender");
-                        int cantidad = Convert.ToInt32(Console.ReadLine());
-
-                        if (cantidad > item.cantProducto)
-                        {
-                            Console.WriteLine("No hay esa cantidad de ese producto.\n" +
-                                "La cantidad disponibles es {0}", item.cantProducto);
-                        }
-                        else
-                        {
-                            pd.cantProducto -= cantidad;
-                            lsProductos[lsProductos.IndexOf(item)] = pd;
-                            products.Add(item.prodNombre);
-                            cant.Add(cantidad);
-                            subT.Add(cantidad * item.precioProducto);
-                            break;
-                        }
+                        Console.WriteLine("Producto agregado a carrito");
+                        cantVendida.Add(cant);
                     }
-                    
+                    else 
+                    {
+                        Console.WriteLine("No hay esa cantidad de ese producto. Hay disponible " + instancias.cantProducto);
+                    }
                 }
-                Console.WriteLine("Quieres seleccionar otro producto Y/N");
-                resp = Console.ReadLine();
-            } while (resp == "Y");
+
+            }
         }
 
-        public static void buscarCliente(string nombre) //Verifica si esta el cliente y lo agrega a la factura
+        public static void buscarCliente() //Verifica si esta el cliente y lo agrega a la factura de la instancia
         {
+            Console.WriteLine("A que cliente le desea vender");
+            string nombre = Console.ReadLine();
             foreach (string item in clientes) 
             {
-                if (item == nombre) 
+                if (item == nombre)
                 {
                     Console.WriteLine("Cliente disponible.\nSeleccione productos que sea vender y la cantidad.\n");
                     fc.cliente = nombre;
-                    lsFacturas.Add(fc);
+                }
+                else 
+                {
+                    Console.WriteLine("El cliente no esta en la lista.");
                 }
             }
         }
