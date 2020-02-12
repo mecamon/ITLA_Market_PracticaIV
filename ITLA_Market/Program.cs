@@ -27,7 +27,7 @@ namespace ITLA_Market
         public static facturas fc = new facturas(); //Creando instancia para llenar lista de productos
 
         public static List<productos> lsProductos = new List<productos>(); //Lista de productos
-        public static productos pd = new productos(); //Creando instancia para llenar lista de productos
+        
 
         public static List<string> clientes = new List<string>(); //Listado de clientes
 
@@ -49,6 +49,7 @@ namespace ITLA_Market
 
         public static void agregarProd() 
         {
+            productos pd = new productos();
             Console.WriteLine("Elija el nombre del producto que desea agregar");
             pd.prodNombre = Console.ReadLine();
 
@@ -253,7 +254,15 @@ namespace ITLA_Market
                     {
                         Console.WriteLine("Producto agregado a carrito");
                         cantVendida.Add(cant);
-                        sub.Add(cant * pd.precioProducto);    
+                        sub.Add(cant * instancias.precioProducto);
+                        //Linea nueva
+                        productos pd = new productos();
+                        pd.cantProducto = instancias.cantProducto - cant;
+
+                        pd.prodNombre = instancias.prodNombre;
+                        pd.precioProducto = instancias.precioProducto;
+
+                        lsProductos[lsProductos.IndexOf(instancias)] = pd;
                     }
                     else 
                     {
@@ -268,39 +277,52 @@ namespace ITLA_Market
         {
             Console.WriteLine("A que cliente le desea vender");
             string nombre = Console.ReadLine();
-            foreach (string item in clientes) 
+
+            if (clientes.Contains(nombre))
             {
-                if (item == nombre)
-                {
-                    fc.cliente = nombre;
-                }
-                else 
-                {
-                    Console.WriteLine("El cliente no esta en la lista.");
-                }
+                fc.cliente = nombre;
+            }
+            else 
+            {
+                Console.WriteLine("Cliente no esta en lista");
             }
         }
 
         public static void editarNombre(int pos) 
         {
+            productos pd = new productos();
+
             Console.WriteLine("Introduzca el nuevo nombre del producto");
             pd.prodNombre = Console.ReadLine();
+
+            pd.precioProducto = lsProductos[pos].precioProducto;
+            pd.cantProducto = lsProductos[pos].cantProducto;
 
             lsProductos[pos] = pd;
         } //Funcion de apoyo para editar nombre en la funcion EditarProducto
 
         public static void editarCantidad(int pos)
         {
-            Console.WriteLine("Introduzca el nuevo nombre del producto");
+            productos pd = new productos();
+
+            Console.WriteLine("Introduzca la nueva cantidad del producto");
             pd.cantProducto = Convert.ToInt32(Console.ReadLine());
+
+            pd.prodNombre = lsProductos[pos].prodNombre;
+            pd.precioProducto = lsProductos[pos].precioProducto;
 
             lsProductos[pos] = pd;
         }//Funcion de apoyo para editar cantidad en la funcion EditarProducto
 
         public static void editarPrecio(int pos)
         {
+            productos pd = new productos();
+
             Console.WriteLine("Introduzca el nuevo precio del producto");
             pd.precioProducto = Convert.ToDouble(Console.ReadLine());
+
+            pd.cantProducto = lsProductos[pos].cantProducto;
+            pd.prodNombre = lsProductos[pos].prodNombre;
 
             lsProductos[pos] = pd;
         }//Funcion de apoyo para editar precio en la funcion EditarProducto
