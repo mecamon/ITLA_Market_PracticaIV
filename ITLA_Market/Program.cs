@@ -12,7 +12,7 @@ namespace ITLA_Market
             public double precioProducto;
         }
 
-        public struct facturas 
+        public struct facturas
         {
             public List<string> prodComprados;
             public List<int> cantComprado;
@@ -20,14 +20,14 @@ namespace ITLA_Market
             public string cliente;
             public double total;
         }
-        
-        
+
+
 
         public static List<facturas> lsFacturas = new List<facturas>(); //Lista de facturas
         public static facturas fc = new facturas(); //Creando instancia para llenar lista de productos
 
         public static List<productos> lsProductos = new List<productos>(); //Lista de productos
-        
+
 
         public static List<string> clientes = new List<string>(); //Listado de clientes
 
@@ -47,6 +47,62 @@ namespace ITLA_Market
             }
         }
 
+        public static void funcionesClientes ()
+        {
+            Console.WriteLine("Seleccione la funcion de deseada: ");
+            Console.WriteLine(" 1- Para agregar cliente\n 2- Para editar cliente\n 3- Para borrar cliente ");
+            int entry = Convert.ToInt32(Console.ReadLine());
+
+            switch (entry) 
+            {
+                case 1:
+                    agregarCliente();
+                    break;
+
+                case 2:
+                    editarCliente();
+                    break;
+
+                case 3:
+                    borrarCliente();
+                    break;
+
+                default:
+                    Console.WriteLine("Elija dentro de las opciones dadas");
+                    break;
+            }
+        }
+        public static void listarClientes() 
+        {
+            Console.WriteLine("Lista de clientes: ");
+            foreach (string item in clientes) 
+            {
+                Console.Write("Posicion " + (clientes.IndexOf(item) + 1) + ": ");
+                Console.WriteLine(item);
+                Console.WriteLine("");
+            }
+        }
+        public static void editarCliente() 
+        {
+            listarClientes();
+            Console.WriteLine("Seleccione la posicion del cliente que desea editar: ");
+            int entry = Convert.ToInt32(Console.ReadLine());
+
+            Console.WriteLine("Seleccione el nuevo nombre del cliente: ");
+            string entryName = Console.ReadLine();
+            clientes[entry - 1] = entryName;
+        }
+
+        public static void borrarCliente()
+        {
+            listarClientes();
+            Console.WriteLine("Seleccione la posicion del cliente que desea borrar: ");
+            int entry = Convert.ToInt32(Console.ReadLine());
+
+            clientes.RemoveAt(entry - 1);
+
+            Console.WriteLine("Cliente borrado exitosamente. Presione cualquier tecla para continuar.");
+        }
         public static void agregarProd() 
         {
             productos pd = new productos();
@@ -66,7 +122,7 @@ namespace ITLA_Market
         {
             Console.WriteLine("Bienvenido a ITLA Market. Seleccione la opcion deseada:");
             Console.WriteLine(" \n 1- Para agregar productos nuevos\n 2- Para editar producto existente" +
-                "\n 3- Para agregar cliente\n 4- Para vender productos\n 5- Para listar facturas \n 6- Borrar producto \n 7- Para salir");
+                "\n 3- Funciones para clientes \n 4- Para vender productos\n 5- Para listar facturas \n 6- Borrar producto \n 7- Para salir");
 
             op = Convert.ToInt32(Console.ReadLine());
 
@@ -81,7 +137,7 @@ namespace ITLA_Market
                     break;
 
                 case 3:
-                    agregarCliente();
+                    funcionesClientes ();
                     break;
 
                 case 4:
@@ -108,28 +164,44 @@ namespace ITLA_Market
 
         public static void listarFacturas() 
         {
-            foreach (facturas item in lsFacturas) 
+            Console.WriteLine("Ingrese el nombre de cliente para buscar facturas: ");
+            string entry = Console.ReadLine();
+            string rt = "";
+
+            foreach (facturas item in lsFacturas)
             {
-                Console.WriteLine("Cliente :" + item.cliente);
-                Console.Write("Productos: ");
-                foreach (string p in item.prodComprados) 
+                if (entry == item.cliente)
                 {
-                    Console.Write(p +" ");
+                    Console.WriteLine("Cliente :" + item.cliente);
+                    Console.Write("Productos: ");
+                    foreach (string p in item.prodComprados)
+                    {
+                        Console.Write(p + " ");
+                    }
+                    Console.Write("\nCantidades: ");
+                    foreach (int p in item.cantComprado)
+                    {
+                        Console.Write("   " + p + "   ");
+                    }
+                    Console.Write("\nSubtotales: ");
+                    foreach (double p in item.subTotal)
+                    {
+                        Console.Write("   " + p + "   ");
+                    }
+                    Console.WriteLine("\nTotal :" + item.total);
+                    Console.WriteLine("");
                 }
-                Console.Write("\nCantidades: ");
-                foreach (int p in item.cantComprado)
-                {
-                    Console.Write("   " + p + "   ");
-                }
-                Console.Write("\nSubtotales: ");
-                foreach (double p in item.subTotal)
-                {
-                    Console.Write("   "+ p + "   ");
-                }
-                Console.WriteLine("\nTotal :" + item.total);
-                Console.WriteLine("");
             }
+            Console.WriteLine("Quiere buscar otra factura: 'S' o 'N'");
+            rt = Console.ReadLine();
+
+            if (rt == "S") 
+            {
+                listarFacturas();
+            }
+
         } //Elista la cantidad de facturas hechas con su cliente y montos
+
         public static void agregarCliente() 
         {
             Console.WriteLine("Digite el nombre del cliente a agregar");
@@ -231,7 +303,7 @@ namespace ITLA_Market
             {
                 Console.Write("   "+ item + "   ");
             }
-            Console.WriteLine("\nTotal de la venta: " + fc.total);
+            Console.WriteLine("\nTotal: " + fc.total);
         }
 
         //Verificacion de disponibilidad de productos. Sirve apoyo a la funcion de venderProductos.
@@ -256,13 +328,7 @@ namespace ITLA_Market
                         cantVendida.Add(cant);
                         sub.Add(cant * instancias.precioProducto);
                         //Linea nueva
-                        productos pd = new productos();
-                        pd.cantProducto = instancias.cantProducto - cant;
 
-                        pd.prodNombre = instancias.prodNombre;
-                        pd.precioProducto = instancias.precioProducto;
-
-                        lsProductos[lsProductos.IndexOf(instancias)] = pd;
                     }
                     else 
                     {
