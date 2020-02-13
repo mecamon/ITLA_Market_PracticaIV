@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
+
 namespace ITLA_Market
 {
     class Program
@@ -30,8 +31,6 @@ namespace ITLA_Market
 
 
         public static List<string> clientes = new List<string>(); //Listado de clientes
-
-
 
         public static bool select = true;
         public static int op;
@@ -263,6 +262,8 @@ namespace ITLA_Market
         } //Elista los productos disponibles.
         public static void venderProductos() 
         {
+            int cantidadExtraida = 0;
+            int index = 0;
             double total = 0;
             List<string> prodVendido = new List<string>();
             List<int> cantVendida = new List<int>();
@@ -270,8 +271,43 @@ namespace ITLA_Market
             buscarCliente();
             do
             {
-                cantidadVender(prodVendido, cantVendida, subTo);
-                
+                Console.WriteLine("Que producto desea vender");
+                string ventaP = Console.ReadLine();
+
+                foreach (productos instancias in lsProductos)
+                {
+                    if (ventaP == instancias.prodNombre)
+                    {
+                        Console.WriteLine("Producto disponible");
+                        prodVendido.Add(ventaP);
+
+                        Console.WriteLine("Que cantidad desea vender");
+                        int cant = Convert.ToInt32(Console.ReadLine());
+                        cantidadExtraida = cant;
+
+                        if (cant <= instancias.cantProducto)
+                        {
+                            index = lsProductos.IndexOf(instancias);
+                            Console.WriteLine("Producto agregado a carrito");
+                            cantVendida.Add(cant);
+                            subTo.Add(cant * instancias.precioProducto);
+
+                        }
+                        else
+                        {
+                            Console.WriteLine("No hay esa cantidad de ese producto. Hay disponible " + instancias.cantProducto);
+                        }
+
+                    }
+
+                }
+                productos pd = new productos();
+
+                pd.cantProducto = lsProductos[index].cantProducto - cantidadExtraida;
+                pd.prodNombre = lsProductos[index].prodNombre;
+                pd.precioProducto = lsProductos[index].precioProducto;
+
+                lsProductos[index] = pd;
                 Console.WriteLine("Quiere realizar otra venta 'S' o 'N'");
                 resp = Console.ReadLine();
             } while (resp == "S");
@@ -304,40 +340,9 @@ namespace ITLA_Market
                 Console.Write("   "+ item + "   ");
             }
             Console.WriteLine("\nTotal: " + fc.total);
+
+
         }
-
-        //Verificacion de disponibilidad de productos. Sirve apoyo a la funcion de venderProductos.
-        public static void cantidadVender(List<string> prodVendido, List<int> cantVendida, List<double> sub) 
-        {
-            Console.WriteLine("Que producto desea vender");
-            string ventaP = Console.ReadLine();
-
-            foreach (productos instancias in lsProductos) 
-            {
-                if (ventaP == instancias.prodNombre) 
-                {
-                    Console.WriteLine("Producto disponible");
-                    prodVendido.Add(ventaP);
-
-                    Console.WriteLine("Que cantidad desea vender");
-                    int cant = Convert.ToInt32(Console.ReadLine());
-
-                    if (cant <= instancias.cantProducto)
-                    {
-                        Console.WriteLine("Producto agregado a carrito");
-                        cantVendida.Add(cant);
-                        sub.Add(cant * instancias.precioProducto);
-                        //Linea nueva
-
-                    }
-                    else 
-                    {
-                        Console.WriteLine("No hay esa cantidad de ese producto. Hay disponible " + instancias.cantProducto);
-                    }
-                }
-
-            }
-        } 
 
         public static void buscarCliente() //Verifica si esta el cliente y lo agrega a la factura de la instancia
         {
